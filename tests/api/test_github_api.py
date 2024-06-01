@@ -25,10 +25,26 @@ def test_repo_cannot_be_found(github_api):
     r = github_api.search_repo('sergiibutenko_repo_non_exist')
     assert r['total_count'] == 0
     
-
  
 @pytest.mark.api
 def test_repo_with_single_char_be_found(github_api):
     r = github_api.search_repo('s')
     assert r['total_count'] != 0
-       
+    
+    
+@pytest.mark.api
+def test_emojis_exist(github_api):
+    emojis = github_api.get_emojis()
+    assert len(emojis) > 0    
+  
+    
+@pytest.mark.api
+def test_list_commits(github_api):
+    commits = github_api.list_commits('learning')
+    assert len(commits) > 0
+    
+    
+@pytest.mark.api
+def test_nonexistent_repo_commits(github_api):
+    nonexistent_commits = github_api.list_commits('nonexistent-repo')
+    assert len(nonexistent_commits) != 0                  
